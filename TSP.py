@@ -21,11 +21,12 @@ class TSP:
         self.distance = 0.0
 
     def get_vertices(self):
-        self.num_vertices = int(input("How many vertices are in this graph? > "))
+        # redirect input from test-n.txt files
+        self.num_vertices = int(input())
         for i in range(self.num_vertices):
-            x = int(input("Enter x: "))
-            y = int(input("Enter y: "))
-            self.vertices.append(Vertex(i, x, y))
+            read_in = input()
+            split_in = read_in.split()
+            self.vertices.append(Vertex(i, int(split_in[0]), int(split_in[1])))
 
     def display_vertices(self):
         for v in self.vertices:
