@@ -1,4 +1,6 @@
 import math
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 
 class Vertex:
@@ -17,24 +19,30 @@ class TSP:
     def __init__(self):
         self.vertices = []
         self.num_vertices = 0
+        self.max_x = 0
+        self.max_y = 0
         self.tour = [0, 1, 2, 0]
         self.distance = 0.0
+        self.fig = plt.figure()
+        self.axes = self.fig.subplots()
 
     def get_vertices(self):
         # redirect input from test-n.txt files
+        max_range = input().split()
+        self.max_x = int(max_range[0])
+        self.max_y = int(max_range[1])
+        self.axes.set_xlim(-self.max_x, self.max_x)
+        self.axes.set_ylim(-self.max_y, self.max_y)
+
         self.num_vertices = int(input())
         for i in range(self.num_vertices):
-            read_in = input()
-            split_in = read_in.split()
+            split_in = input().split()
             self.vertices.append(Vertex(i, int(split_in[0]), int(split_in[1])))
+            plt.plot(self.vertices[i].x, self.vertices[i].y, marker="o", markersize=5)
 
     def display_vertices(self):
         for v in self.vertices:
             print(str(v.num) + " " + str(v.x) + " " + str(v.y))
-
-    def display_tour(self):
-        print("distance: " + str(self.distance))
-        print(self.tour)
 
     def arbitrary_tsp(self):
         # loop through remaining vertices
@@ -42,7 +50,7 @@ class TSP:
             next_v = self.vertices[i]
             best_candidate = math.inf
             best_ind = 0
-            for v in range(0, len(self.tour) - 1):
+            for v in range(1, len(self.tour) - 1):
                 temp_candidate = find_distance(self.vertices[v], next_v) \
                                  + find_distance(self.vertices[v+1], next_v)
                 if temp_candidate < best_candidate:
@@ -54,6 +62,17 @@ class TSP:
         for i in range(0, len(self.tour) - 1):
             self.distance += find_distance(self.vertices[self.tour[i]],
                                            self.vertices[self.tour[i+1]])
+            # visualize lines
+            plt.plot([self.vertices[self.tour[i]].x, self.vertices[self.tour[i+1]].x],
+                     [self.vertices[self.tour[i]].y, self.vertices[self.tour[i+1]].y], color="black", linewidth=0.3)
+
+    def display_tour(self):
+        print("distance: " + str(self.distance))
+        print(self.tour)
+        plt.title("distance: " + str(self.distance))
+        for i in range(0, len(self.tour)):
+            print(str(self.vertices[self.tour[i]].x) + " " + str(self.vertices[self.tour[i]].y))
+        plt.show()
 
 
 def main():
