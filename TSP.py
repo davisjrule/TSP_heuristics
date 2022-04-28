@@ -52,26 +52,43 @@ class TSP:
             best_ind = 0
             for v in range(1, len(self.tour) - 1):
                 temp_candidate = find_distance(self.vertices[v], next_v) \
-                                 + find_distance(self.vertices[v+1], next_v)
+                                 + find_distance(self.vertices[v + 1], next_v)
                 if temp_candidate < best_candidate:
                     best_candidate = temp_candidate
                     best_ind = v
             self.tour.insert(best_ind, next_v.num)
 
-    def find_distance(self):
+    def two_opt(self):
+        for i in range(len(self.tour) - 4):
+            a_b = find_distance(self.vertices[self.tour[i]], self.vertices[self.tour[i + 1]])
+            for j in range(i+1, len(self.tour) - 1):
+                c_d = find_distance(self.vertices[self.tour[j]], self.vertices[self.tour[j + 1]])
+
+                a_c = find_distance(self.vertices[self.tour[i]], self.vertices[self.tour[j]])
+                b_d = find_distance(self.vertices[self.tour[i+1]], self.vertices[self.tour[j+1]])
+
+                if(a_c + b_d) < (a_b + c_d):
+                    self.tour[i+1], self.tour[j] = self.tour[j], self.tour[i+1]
+
+    def tour_distance(self, tour):
+        distance = 0.0
+        for i in range(0, len(tour) - 1):
+            distance += find_distance(self.vertices[tour[i]],
+                                      self.vertices[tour[i + 1]])
+        return distance
+
+    def draw_tour(self):
         for i in range(0, len(self.tour) - 1):
-            self.distance += find_distance(self.vertices[self.tour[i]],
-                                           self.vertices[self.tour[i+1]])
-            # visualize lines
-            plt.plot([self.vertices[self.tour[i]].x, self.vertices[self.tour[i+1]].x],
-                     [self.vertices[self.tour[i]].y, self.vertices[self.tour[i+1]].y], color="black", linewidth=0.3)
+            plt.plot([self.vertices[self.tour[i]].x, self.vertices[self.tour[i + 1]].x],
+                     [self.vertices[self.tour[i]].y, self.vertices[self.tour[i + 1]].y],
+                     color="black", linewidth=0.3)
 
     def display_tour(self):
+        self.distance = self.tour_distance(self.tour)
         print("distance: " + str(self.distance))
         print(self.tour)
+        self.draw_tour()
         plt.title("distance: " + str(self.distance))
-        for i in range(0, len(self.tour)):
-            print(str(self.vertices[self.tour[i]].x) + " " + str(self.vertices[self.tour[i]].y))
         plt.show()
 
 
@@ -79,7 +96,7 @@ def main():
     tsp = TSP()
     tsp.get_vertices()
     tsp.arbitrary_tsp()
-    tsp.find_distance()
+    tsp.two_opt()
     tsp.display_tour()
 
 
