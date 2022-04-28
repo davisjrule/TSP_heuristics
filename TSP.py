@@ -38,7 +38,7 @@ class TSP:
         for i in range(self.num_vertices):
             split_in = input().split()
             self.vertices.append(Vertex(i, int(split_in[0]), int(split_in[1])))
-            plt.plot(self.vertices[i].x, self.vertices[i].y, marker="o", markersize=5)
+            plt.plot(self.vertices[i].x, self.vertices[i].y, marker="o", markersize=6)
 
     def display_vertices(self):
         for v in self.vertices:
@@ -51,8 +51,8 @@ class TSP:
             best_candidate = math.inf
             best_ind = 0
             for v in range(1, len(self.tour) - 1):
-                temp_candidate = find_distance(self.vertices[v], next_v) \
-                                 + find_distance(self.vertices[v + 1], next_v)
+                temp_candidate = find_distance(self.vertices[self.tour[v]], next_v) \
+                                 + find_distance(self.vertices[self.tour[v+1]], next_v)
                 if temp_candidate < best_candidate:
                     best_candidate = temp_candidate
                     best_ind = v
@@ -68,7 +68,7 @@ class TSP:
                 b_d = find_distance(self.vertices[self.tour[i+1]], self.vertices[self.tour[j+1]])
 
                 if(a_c + b_d) < (a_b + c_d):
-                    self.tour[i+1], self.tour[j] = self.tour[j], self.tour[i+1]
+                    self.tour[i+1], self.tour[j] = self.tour[j], self.tour[i+1]  # swap
 
     def tour_distance(self, tour):
         distance = 0.0
@@ -97,6 +97,9 @@ def main():
     tsp.get_vertices()
     tsp.arbitrary_tsp()
     tsp.two_opt()
+    # tsp.two_opt()
+    # tsp.two_opt()
+    # tsp.two_opt()
     tsp.display_tour()
 
 
