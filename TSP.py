@@ -45,7 +45,7 @@ class TSP:
             best_ind = 0
             for v in range(1, len(self.tour) - 1):
                 temp_candidate = find_distance(self.vertices[self.tour[v]], next_v) \
-                                 + find_distance(self.vertices[self.tour[v+1]], next_v)
+                                 + find_distance(self.vertices[self.tour[v + 1]], next_v)
                 if temp_candidate < best_candidate:
                     best_candidate = temp_candidate
                     best_ind = v
@@ -58,14 +58,14 @@ class TSP:
     def two_opt(self):
         for i in range(len(self.tour) - 4):
             a_b = find_distance(self.vertices[self.tour[i]], self.vertices[self.tour[i + 1]])
-            for j in range(i+1, len(self.tour) - 1):
+            for j in range(i + 1, len(self.tour) - 1):
                 c_d = find_distance(self.vertices[self.tour[j]], self.vertices[self.tour[j + 1]])
 
                 a_c = find_distance(self.vertices[self.tour[i]], self.vertices[self.tour[j]])
-                b_d = find_distance(self.vertices[self.tour[i+1]], self.vertices[self.tour[j+1]])
+                b_d = find_distance(self.vertices[self.tour[i + 1]], self.vertices[self.tour[j + 1]])
 
-                if(a_c + b_d) < (a_b + c_d):
-                    self.tour[i+1], self.tour[j] = self.tour[j], self.tour[i+1]  # swap
+                if (a_c + b_d) < (a_b + c_d):
+                    self.tour[i + 1], self.tour[j] = self.tour[j], self.tour[i + 1]  # swap
                     self.draw_tour()
                     plt.draw()
                     plt.pause(self.pause_length)
@@ -90,7 +90,7 @@ class TSP:
                      [self.vertices[self.tour[i]].y, self.vertices[self.tour[i + 1]].y],
                      color="gray", linewidth=0.8)
 
-        plt.title("distance: " + str(round(self.tour_distance(self.tour),2)))
+        plt.title("distance: " + str(round(self.tour_distance(self.tour), 2)))
 
     def display_tour(self):
         self.distance = self.tour_distance(self.tour)
