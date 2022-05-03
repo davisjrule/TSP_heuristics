@@ -10,9 +10,9 @@ This method starts with an existing tour between the first three vertices in the
 
 The arbitrary insertion heuristic results in a decent approximation, but often leaves a large number of crossings in the tour, which indicates that there is a better route possible. To eliminate as many of these crossings as possible using the starting tour that results from arbitrary insertion, we can use the 2-OPT algorithm. 2-OPT compares each edge with every other edge, and it evalues whether swapping the edges results in an improvement. For example, in the example below, the algorithm determines that A-B and C-D is a lower cost set of edges than A-D and B-C:
 
- - A   B -             - A - B -
-     ×         ==>
- - C   D -             - C - D -
+<img width="330" alt="Screen Shot 2022-05-03 at 4 40 57 PM" src="https://user-images.githubusercontent.com/59371711/166562381-278e17a0-a345-4dde-abc3-3278ee9ecb5e.png">
+
+## Example
 
 Below is an example of the two algorithms at work. First, the arbitrary insertion heuristic runs and constructs a complete tour. Then, 2-OPT is employed to remove crossings. In this example, I chose to only run 2-OPT once, but multiple passes through 2-OPT has the potential to rearrange more pairs of edges. In fact, one way to reach a locally optimal solution to TSP is to continue running 2-OPT until it is determined that no optimizations can be made. However, it is not guaranteed that such an approach will result in a globally optimal solution.  
 
