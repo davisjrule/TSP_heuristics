@@ -22,7 +22,7 @@ class TSP:
         self.distance = 0.0
         self.fig = plt.figure()
         self.axes = self.fig.subplots()
-        self.pause_length = 1.0  # adjust as needed
+        self.pause_length = 0.3  # adjust as needed
         plt.ion()
 
     def get_vertices(self):
@@ -40,20 +40,23 @@ class TSP:
     def arbitrary_tsp(self):
         # loop through remaining vertices
         for i in range(3, self.num_vertices):
+            # draw tour
+            self.draw_tour()
+            plt.draw()
+            plt.pause(self.pause_length)
+            plt.clf()
+
             next_v = self.vertices[i]
             best_candidate = math.inf
             best_ind = 0
             for v in range(1, len(self.tour) - 1):
                 temp_candidate = find_distance(self.vertices[self.tour[v]], next_v) \
-                                 + find_distance(self.vertices[self.tour[v + 1]], next_v)
+                                 + find_distance(self.vertices[self.tour[v + 1]], next_v) \
+                                 - find_distance(self.vertices[self.tour[v]], self.vertices[self.tour[v+1]])
                 if temp_candidate < best_candidate:
                     best_candidate = temp_candidate
                     best_ind = v
             self.tour.insert(best_ind, next_v.num)
-            self.draw_tour()
-            plt.draw()
-            plt.pause(self.pause_length)
-            plt.clf()
 
     def two_opt(self):
         for i in range(len(self.tour) - 4):
